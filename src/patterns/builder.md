@@ -107,22 +107,22 @@ impl UserBuilder {
         Self::default()
     }
 
-    fn set_username(mut self, username: Username) -> Self {
+    fn with_username(mut self, username: Username) -> Self {
         self.username = Some(username);
         self
     }
 
-    fn set_primary_email(mut self, email: EmailAddress) -> Self {
+    fn with_primary_email(mut self, email: EmailAddress) -> Self {
         self.primary_email = Some(email);
         self
     }
 
-    fn add_secondary_emaail(mut self, email: EmailAddress) -> Self {
+    fn add_secondary_email(mut self, email: EmailAddress) -> Self {
         self.secondary_emails.insert(email);
         self
     }
 
-    fn set_phone_number(mut self, phone_number: PhoneNumber) -> Self {
+    fn with_phone_number(mut self, phone_number: PhoneNumber) -> Self {
         self.phone_number = Some(phone_number);
         self
     }
@@ -145,14 +145,14 @@ impl UserBuilder {
 fn main () {
     // We can successfully build a User if we have all the required information
     let user_result = UserBuilder::new()
-        .set_username(Username::from("Fio"))
-        .set_primary_email(EmailAddress::from("fio@example.com"))
+        .with_username(Username::from("Fio"))
+        .with_primary_email(EmailAddress::from("fio@example.com"))
         .build();
     assert!(user_result.is_ok());
 
     // But if we don't give all the required information we get an error
     let user_result = UserBuilder::new()
-        .set_username(Username::from("Fio"))
+        .with_username(Username::from("Fio"))
         .build();
     assert!(user_result.is_err());
 }
@@ -277,7 +277,7 @@ impl UserBuilder<Unset, Unset> {
 impl<U, PE> UserBuilder<U, PE> {
     // When we set the username we have to completely migrate the type and
     // create a new struct for the generics to work.
-    fn set_username(mut self, username: Username) -> UserBuilder<Set, PE> {
+    fn with_username(mut self, username: Username) -> UserBuilder<Set, PE> {
         UserBuilder {
             username: Some(username),
             primary_email: self.primary_email,
@@ -289,7 +289,7 @@ impl<U, PE> UserBuilder<U, PE> {
     }
 
     // Same goes for primary email
-    fn set_primary_email(mut self, email: EmailAddress) -> UserBuilder<U, Set> {
+    fn with_primary_email(mut self, email: EmailAddress) -> UserBuilder<U, Set> {
         UserBuilder {
             username: self.username,
             primary_email: Some(email),
@@ -306,7 +306,7 @@ impl<U, PE> UserBuilder<U, PE> {
         self
     }
 
-    fn set_phone_number(mut self, phone_number: PhoneNumber) -> UserBuilder<U, PE> {
+    fn with_phone_number(mut self, phone_number: PhoneNumber) -> UserBuilder<U, PE> {
         self.phone_number = Some(phone_number);
         self
     }
@@ -335,8 +335,8 @@ impl UserBuilder<Set, Set> {
 fn main () {
     // We can only build a User if we have all the required information
     let user = UserBuilder::new()
-        .set_username(Username::from("Fio"))
-        .set_primary_email(EmailAddress::from("fio@example.com"))
+        .with_username(Username::from("Fio"))
+        .with_primary_email(EmailAddress::from("fio@example.com"))
         .build();
 
     // This won't compile because .build() only exists on UserBuilder<Set, Set>
