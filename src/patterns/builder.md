@@ -313,7 +313,7 @@ impl<U, PE> UserBuilder<U, PE> {
 }
 
 // By only implementing `.build()` on UserBuilder<Set, Set>, the method will only
-// be available once both `.set_username()` and `.set_primary_email()` are called.
+// be available once both `.with_username()` and `.with_primary_email()` are called.
 impl UserBuilder<Set, Set> {
     fn build(self) -> User {
         let username = self.username
@@ -341,7 +341,7 @@ fn main () {
 
     // This won't compile because .build() only exists on UserBuilder<Set, Set>
     // let user_result = UserBuilder::new()
-    //     .set_username(Username::from("Fio"))
+    //     .with_username(Username::from("Fio"))
     //     .build();
 }
 ```
