@@ -3,7 +3,6 @@ title = "Software Patterns and Coding Excellence"
 description = "Even more Rust idioms, patterns and useful tricks"
 authors = ["Daniel Mason"]
 language = "en"
-multilingual = false
 src = "src"
 
 [build]
